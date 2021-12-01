@@ -1,0 +1,77 @@
+{% extends '@admin/layout.twig' %}
+
+{% block title trans("menu.title") %}
+{% block pagetitle trans("menu.title") %}
+{% block pagesubtitle trans("menu.subtitle") %}
+{% block style %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+{% endblock %}
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+
+                    <form method="post" action="{{ path(routePrefix ~ '.update', {id: item.id}) }}">
+                        {% include viewPath ~ '/form.twig' %}
+                        <button type="submit" class="btn btn-primary mr-1 mt-2">{{ trans("save") }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="fontawesome" data-backdrop="static" data-keyboard="false" tabindex="-1"
+         aria-labelledby="fontawesomeLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="fontawesomeLabel"><a href="//fontawesome.com">Font Awesome Icon -
+                            fontawesome.com</a></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+
+                        {% for row in icons | batch(5) %}
+
+                            <tr>
+                                {% for icon in row %}
+                                    <td><a class="text-white btn btn-{{ icon == item.icon ? 'warning' : 'default' }} btn-icon" data-icon="{{ icon }}"><i
+                                                    class="{{ icon }}"></i></a></td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block script %}
+
+    <script src="/modules/Admin/js/predefined-copy.js"></script>
+    <script>
+        Array.from(document.querySelectorAll(".btn-icon")).map((el) => {
+            el.addEventListener("click", (e) => {
+                let target = e.target
+                e.preventDefault()
+                if (target.tagName == 'I') {
+                    target = e.target.parentNode
+                }
+                target.innerHTML = target.dataset.icon
+
+                copyToClipboard(target)
+                target.innerHTML = ""
+                document.getElementById("icon").value = target.dataset.icon
+                $('#fontawesome').modal('toggle')
+            })
+        })
+    </script>
+{% endblock %}

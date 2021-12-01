@@ -1,0 +1,34 @@
+{{ csrf_input () }}
+<div class="row">
+    <div class="col-sm-12 col-lg-6 col-md-12">
+        {{ field('title', item.title, trans("name")) }}
+    </div>
+
+    <div class="col-sm-12 col-lg-6 col-md-12">
+        {{ field('badge', item.badge, trans("menu.badge") ~" (Nullable)") }}
+    </div>
+
+    <div class="col-sm-12 col-lg-4 col-md-12">
+        {{ field('redirect', item.redirect, trans("menu.redirect")) }}
+    </div>
+
+    <div class="col-sm-12 col-lg-4 col-md-12">
+        {{ field('user', item.user, trans("menu.user"), {options:users}) }}
+    </div>
+
+    <div class="col-sm-12 col-lg-4 col-md-12">
+        <label for="icon" class="">{{ trans("support.icon") }}</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fontawesome">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+            <input class="form-control {{ errors.icon ? 'is-invalid' }}" name="icon" id="icon" type="text"
+                   value="{{ item.icon | html_decode }}">
+            {% if errors.icon %}
+                <div class="invalid-feedback">{{ errors.icon }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>

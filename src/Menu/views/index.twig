@@ -1,0 +1,115 @@
+{% extends '@admin/layout.twig' %}
+
+{% block title trans("menu.title") %}
+{% block pagetitle trans("menu.title") %}
+{% block pagesubtitle trans("menu.subtitle") %}
+
+{% block scripts %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+        <script>
+            const sortable = Sortable.create(document.getElementById('menus'), {
+                animation: 150,
+                group: 'menu',
+                handle: '.sortable-handle',
+            });
+
+            function serialize(sortable) {
+                return [].slice.call(sortable.children).map(function (child) {
+                    return child.dataset['id'];
+                });
+            }
+
+            const saveButton = document.getElementById('save');
+            const saveButtonIcon = saveButton.querySelector('.btn-spinner');
+            saveButton.addEventListener('click', function (e) {
+                e.preventDefault()
+                saveButton.setAttribute('disabled', '');
+                const data = new FormData()
+                data.append('menus', serialize(sortable.el).reverse())
+                saveButtonIcon.classList.remove('d-none');
+                fetch('{{ path('menu.admin.switch') }}', {
+                    body: data,
+                    method: "POST"
+                }).then(function (response) {
+
+                    if (response.ok) {
+                        return window.location.reload();
+                    }
+                    alert(response.statusText)
+                }).catch(function (error) {
+                    return window.location.reload();
+                }).finally(function () {
+                    saveButton.removeAttribute('disabled');
+                    saveButtonIcon.classList.add('d-none');
+                });
+            });
+        </script>
+{% endblock %}
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex bd-highlight mb-3">
+                <div class="p-2 bd-highlight">
+
+                        <button type="button" class="btn btn-success" id="save">
+                            <i class="fas fa-save"></i> {{ trans('save') }}
+                            <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
+                        </button>
+                </div>
+                <div class="ml-auto p-2 bd-highlight">
+                    <a href="{{ path(routePrefix ~'.create') }}" class="btn btn-info mb-3"
+                       title="{{ trans("new") }}">{{ trans("new") }}</a>
+                </div>
+            </div>
+            <ol class="list-unstyled sortable mb-3" id="menus">
+
+                {% set token = csrf_input() %}
+
+                {% for i, item in items %}
+                    <li class="sortable-item sortable-dropdown" data-id="{{ item.id }}">
+                        <div class="card">
+                            <div class="card-body d-flex">
+                                <span class="p-2 flex-fill ">
+
+<i
+        class="fas fa-arrows-alt sortable-handle"></i>
+{{ item.title }}
+
+                                </span>
+
+
+                                <form style="display: inline;"
+                                      action="{{ path(routePrefix ~'.delete', {id: item.id}) }}" method="POST"
+                                      onsubmit="return confirmation()">
+
+                                <span class="p-2 flex-fill d-flex justify-content-end">
+                                            <a href="{{ path(routePrefix ~'.edit', {id: item.id}) }}"
+                                               class="m-1 btn btn-primary"
+                                               title="{{ trans('edit') }}" data-toggle="tooltip"><i
+                                                        class="fas fa-edit"></i></a>
+
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button class="btn btn-danger">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    {{ token |raw }}
+                                </span>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ol>
+
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            {% if query is defined %}
+                {{ paginate(items, routePrefix ~'.index', {'query':query}) }}
+            {% endif %}
+            {% if query is not defined %}
+                {{ paginate(items, routePrefix ~'.index') }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
