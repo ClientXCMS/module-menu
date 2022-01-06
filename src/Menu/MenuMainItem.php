@@ -11,10 +11,12 @@ use ClientX\Renderer\RendererInterface;
 class MenuMainItem implements NavigationItemInterface
 {
     private MenuTable $table;
+    private string $title;
 
-    public function __construct(MenuTable $table)
+    public function __construct(MenuTable $table, string $title)
     {
         $this->table = $table;
+        $this->title = $title;
     }
 
     /**
@@ -34,7 +36,7 @@ class MenuMainItem implements NavigationItemInterface
         $online = $this->filter($records, 'online');
         $offline = $this->filter($records, 'offline');
         $global = $this->filter($records, 'global');
-        $title = "Other menu";
+        $title = $this->title;
         return $renderer->render(DefaultItem::MAIN_MENU, compact('global', 'offline', 'online', 'title'));
     }
 
