@@ -32,7 +32,7 @@ class MenuMainItem implements NavigationItemInterface
      */
     public function render(RendererInterface $renderer): string
     {
-        $records = $this->table->findAll()->group("GROUP BY user")->order("position DESC")->fetchAll();
+        $records = $this->table->findAll()->fetchAll();
         $online = $this->filter($records, 'online');
         $offline = $this->filter($records, 'offline');
         $global = $this->filter($records, 'global');
