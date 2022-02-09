@@ -44,6 +44,6 @@ class MenuMainItem implements NavigationItemInterface
     {
         return collect($records)->filter(function ($record) use ($user) {
             return $record->user === $user;
-        })->map(fn($record) => DefaultMainItem::makeItem($record->title, $record->redirect, $record->icon, $user == 'offline', $user === 'online', $record->badge))->toArray();
+        })->map(fn($record) => DefaultMainItem::makeItem($record->title, $record->redirect, $record->icon, $user == 'offline', $user === 'online', $record->badge, [], $record->blank ? '_blank' : null))->toArray();
     }
 }
