@@ -18,7 +18,7 @@ class MenuCrudAction extends CrudAction
     protected $viewPath = "@menu_admin";
     protected $routePrefix = 'menu.admin';
     protected $moduleName = "Menu";
-    protected $fillable = ["redirect", "icon", "badge", "title", "user"];
+    protected $fillable = ["redirect", "icon", "badge", "title", "user", "blank"];
 
     public function __construct(RendererInterface $renderer, Table $table, Router $router, FlashService $flash, Translater $translater)
     {
