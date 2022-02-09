@@ -2,6 +2,7 @@
 return [
     'menu' => [
         "title" => "Menu",
+        "settingtitle" => "Titre menu",
         "subtitle" => "Gérez les liens dans le menu.",
         "blank" => "Ouvrir dans une nouvelle fenêtre",
         "redirect" => "Redirection",
