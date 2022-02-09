@@ -3,7 +3,7 @@ return [
     'menu' => [
         "title" => "Menu",
         "subtitle" => "Gérez les liens dans le menu.",
-        "blank" => "Nouvelle fenetre",
+        "blank" => "Ouvrir dans une nouvelle fenêtre",
         "redirect" => "Redirection",
         "badge" => "Badge",
         "user" => "Utilisateur",
