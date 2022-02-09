@@ -71,30 +71,31 @@
                             <div class="card-body d-flex">
                                 <span class="p-2 flex-fill ">
 
-<i
-        class="fas fa-arrows-alt sortable-handle"></i>
-{{ item.title }}
+                                    <i class="fas fa-arrows-alt sortable-handle"></i>
+                                    {{ item.title }}
 
                                 </span>
 
 
-                                <form style="display: inline;"
-                                      action="{{ path(routePrefix ~'.delete', {id: item.id}) }}" method="POST"
-                                      onsubmit="return confirmation()">
 
                                 <span class="p-2 flex-fill d-flex justify-content-end">
+
                                             <a href="{{ path(routePrefix ~'.edit', {id: item.id}) }}"
-                                               class="m-1 btn btn-primary"
+                                               class="btn btn-primary m-1"
                                                title="{{ trans('edit') }}" data-toggle="tooltip"><i
                                                         class="fas fa-edit"></i></a>
 
+                                <form style="display: block;"
+                                      action="{{ path(routePrefix ~'.delete', {id: item.id}) }}" method="POST"
+                                      onsubmit="return confirmation()">
                                     <input type="hidden" name="_method" value="DELETE">
-                                    <button class="btn btn-danger">
+                                    <button class="m-1 btn btn-danger">
                                         <i class="fas fa-times"></i>
                                     </button>
                                     {{ token |raw }}
-                                </span>
                                 </form>
+                                </span>
+
                             </div>
                         </div>
                     </li>
