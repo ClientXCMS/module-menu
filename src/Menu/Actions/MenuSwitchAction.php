@@ -4,7 +4,6 @@ namespace App\Menu\Actions;
 
 use App\Admin\DatabaseAdminAuth;
 use App\Menu\Database\MenuTable;
-use App\Shop\Database\GroupTable;
 use ClientX\Actions\Action;
 use ClientX\Session\FlashService;
 use ClientX\Translator\Translater;
@@ -31,7 +30,7 @@ class MenuSwitchAction extends Action
         $ids = explode(',', $request->getParsedBody()['menus']);
         $position = 1;
         foreach ($ids as $id) {
-            $this->menuTable->update2($id, ['position' => $position--]);
+            $this->menuTable->update2($id, ['position' => $position++]);
         }
         $this->success($this->trans("configuration.update"));
         return $this->json(['success' => true]);

@@ -2,10 +2,12 @@
 namespace App\Menu\Database;
 
 use ClientX\Database\Table;
+use ClientX\Database\Query;
 
 class MenuTable extends Table
 {
     protected $table = "menus";
+    protected $order = "position DESC";
 
     public function insert(array $params): int
     {
@@ -25,7 +27,14 @@ class MenuTable extends Table
 
     public function update2(string $id, $params)
     {
-
         return parent::update($id, $params, 'id');
+    }
+
+    public function makeQueryForAdmin(?array $search = null, $order = "desc"): Query
+    {
+        $query = parent::makeQueryForAdmin($search);
+        $query->order = [];
+        $query->order($this->order);
+        return $query;
     }
 }
