@@ -1,5 +1,6 @@
 <?php
 
+use App\Menu\Actions\MenuCrudAction;
 use App\Menu\MenuAdminItem;
 use function ClientX\setting;
 use function DI\add;
@@ -11,4 +12,7 @@ return [
     'csrf.except' => add('menu.admin.switch'),
     \App\Menu\MenuMainItem::class => \DI\autowire()->constructorParameter('title', setting('menu_title', 'Main menu')),
     'admin.settings' => add(get(\App\Menu\MenuSetting::class)),
+    'permissions.list' => add([
+        MenuCrudAction::class => 'menu',
+    ]),
 ];

@@ -1,3 +1,4 @@
+{% if current_admin() is can('menu.admin.index') %}
 <li class="nav-item">
     <a href="{{ path('menu.admin.index') }}" class="nav-link {{ is_subpath('menu.admin.index') ? 'active' }}">
         <i class="nav-icon fas fa-compass"></i>
@@ -6,3 +7,4 @@
         </p>
     </a>
 </li>
+{% endif %}
